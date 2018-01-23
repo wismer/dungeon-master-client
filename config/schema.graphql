@@ -1,0 +1,95 @@
+schema {
+  query: Root
+  mutation: Mutation
+}
+
+
+type AbilityList {
+  abilities: [Ability]
+}
+
+input AddAbilityInput {
+  name: String!
+  description: String!
+}
+
+input CampaignViewInput {
+  campaignId: String!
+}
+
+type Root {
+  skills: [Skill]
+  abilities: [Ability]
+  campaigns: [Campaign]
+  campaignView(campaignId: String!): Campaign
+  getScene(campaignId: String!, sceneName: String!): Scene
+}
+
+type Ability {
+  id: String!
+  name: String
+  description: String
+  updated_at: String
+  created_at: String
+}
+
+
+type Skill {
+  id: String
+  name: String
+  description: String
+}
+
+input CreateCampaignInput {
+  title: String!
+}
+
+type SceneSummary {
+  name: String
+  id: String
+}
+
+type Campaign {
+  id: String
+  title: String
+  created_at: String
+  updated_at: String
+  scenes: [Scene]
+}
+
+input CreateSceneInput {
+  name: String
+  description: String
+  campaign_id: String
+}
+
+type Mutation {
+  addAbility(input: AddAbilityInput!): AbilityList
+  createCampaign(input: CreateCampaignInput!): CreateCampaignPayload
+  createScene(input: CreateSceneInput!): CreateScenePayload
+}
+
+type CreateScenePayload {
+  name: String
+  description: String
+  id: String
+  created_at: String
+  updated_at: String
+  campaign_id: String  
+}
+
+type Scene {
+  name: String
+  description: String
+  id: String
+  created_at: String
+  updated_at: String
+  campaign_id: String
+}
+
+
+
+
+type CreateCampaignPayload {
+  campaign: Campaign
+}
