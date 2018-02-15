@@ -3,6 +3,10 @@ schema {
   mutation: Mutation
 }
 
+interface Node {
+  id: ID!
+}
+
 
 type AbilityList {
   abilities: [Ability]
@@ -20,7 +24,8 @@ input CampaignViewInput {
 type Root {
   skills: [Skill]
   abilities: [Ability]
-  campaigns: [Campaign]
+  campaigns: [CampaignListItem]
+  campaignsWithCharactersAndScenes: [CampaignListItem]
   campaignView(campaignId: String!): Campaign
   getScene(campaignId: String!, sceneName: String!): Scene
 }
@@ -42,6 +47,8 @@ type Skill {
 
 input CreateCampaignInput {
   title: String!
+  setting: String!
+  desc: String!
 }
 
 type SceneSummary {
@@ -54,7 +61,53 @@ type Campaign {
   title: String
   created_at: String
   updated_at: String
+  desc: String
+  setting: String
+  areas_of_interest: [String]
+  url_slug: String
   scenes: [Scene]
+}
+
+type CampaignListItem {
+  id: String
+  title: String
+  created_at: String
+  updated_at: String
+  url_slug: String
+  desc: String
+  setting: String
+  characters: [CharacterCampaignListItem]
+}
+
+type CharacterCampaignListItem {
+  id: ID
+  name: String
+}
+
+type CharacterConnection {
+  edges: [CharacterEdge]
+}
+
+type CharacterEdge {
+  cursor: ID!
+  node: Character
+}
+
+type SceneConnection {
+  edges: [SceneEdge]
+  pageInfo: PageInfo!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type SceneEdge {
+  cursor: String!
+  node: Scene
 }
 
 input CreateSceneInput {
@@ -63,10 +116,24 @@ input CreateSceneInput {
   campaign_id: String
 }
 
+input CreateCharacterInput {
+  race: ID
+  characterName: String
+  characterClass: ID
+}
+
 type Mutation {
   addAbility(input: AddAbilityInput!): AbilityList
   createCampaign(input: CreateCampaignInput!): CreateCampaignPayload
   createScene(input: CreateSceneInput!): CreateScenePayload
+  createCharacter(input: CreateCharacterInput!): CreateCharacterPayload
+}
+
+type CreateCharacterPayload {
+  id: ID
+  race_id: ID
+  name: String
+  character_class_id: ID
 }
 
 type CreateScenePayload {
@@ -75,7 +142,7 @@ type CreateScenePayload {
   id: String
   created_at: String
   updated_at: String
-  campaign_id: String  
+  campaign_id: String
 }
 
 type Scene {
@@ -87,9 +154,30 @@ type Scene {
   campaign_id: String
 }
 
+type Character {
+  id: ID
+  name: String
+  character_class_id: ID
+  race_id: ID
+}
 
+type CharacterClass {
+  id: ID
+  name: String
+}
+
+type Race {
+  id: ID
+  name: String
+}
 
 
 type CreateCampaignPayload {
-  campaign: Campaign
+  id: String
+  title: String
+  created_at: String
+  updated_at: String
+  desc: String
+  setting: String
+  url_slug: String
 }

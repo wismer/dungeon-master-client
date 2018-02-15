@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 03074c2915510a09c78a3ba780e06f5c
+ * @relayHash 286106712df397e8dc0f229dbdd3eb81
  */
 
 /* eslint-disable */
@@ -9,39 +9,33 @@
 
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
-export type NewCampaignMutationVariables = {|
+export type CharacterCreateMutationVariables = {|
   input: {
-    title: string;
-    setting: string;
-    desc: string;
+    race?: ?string;
+    characterName?: ?string;
+    characterClass?: ?string;
   };
 |};
-export type NewCampaignMutationResponse = {|
-  +createCampaign: ?{|
-    +title: ?string;
-    +desc: ?string;
-    +setting: ?string;
-    +url_slug: ?string;
+export type CharacterCreateMutationResponse = {|
+  +createCharacter: ?{|
     +id: ?string;
-    +created_at: ?string;
-    +updated_at: ?string;
+    +race_id: ?string;
+    +character_class_id: ?string;
+    +name: ?string;
   |};
 |};
 */
 
 
 /*
-mutation NewCampaignMutation(
-  $input: CreateCampaignInput!
+mutation CharacterCreateMutation(
+  $input: CreateCharacterInput!
 ) {
-  createCampaign(input: $input) {
-    title
-    desc
-    setting
-    url_slug
+  createCharacter(input: $input) {
     id
-    created_at
-    updated_at
+    race_id
+    character_class_id
+    name
   }
 }
 */
@@ -52,13 +46,13 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LocalArgument",
         "name": "input",
-        "type": "CreateCampaignInput!",
+        "type": "CreateCharacterInput!",
         "defaultValue": null
       }
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "NewCampaignMutation",
+    "name": "CharacterCreateMutation",
     "selections": [
       {
         "kind": "LinkedField",
@@ -68,41 +62,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "Variable",
             "name": "input",
             "variableName": "input",
-            "type": "CreateCampaignInput!"
+            "type": "CreateCharacterInput!"
           }
         ],
-        "concreteType": "CreateCampaignPayload",
-        "name": "createCampaign",
+        "concreteType": "CreateCharacterPayload",
+        "name": "createCharacter",
         "plural": false,
         "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "title",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "desc",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "setting",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "url_slug",
-            "storageKey": null
-          },
           {
             "kind": "ScalarField",
             "alias": null,
@@ -114,14 +80,21 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "name": "created_at",
+            "name": "race_id",
             "storageKey": null
           },
           {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "name": "updated_at",
+            "name": "character_class_id",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "name",
             "storageKey": null
           }
         ],
@@ -133,18 +106,18 @@ const batch /*: ConcreteBatch*/ = {
   "id": null,
   "kind": "Batch",
   "metadata": {},
-  "name": "NewCampaignMutation",
+  "name": "CharacterCreateMutation",
   "query": {
     "argumentDefinitions": [
       {
         "kind": "LocalArgument",
         "name": "input",
-        "type": "CreateCampaignInput!",
+        "type": "CreateCharacterInput!",
         "defaultValue": null
       }
     ],
     "kind": "Root",
-    "name": "NewCampaignMutation",
+    "name": "CharacterCreateMutation",
     "operation": "mutation",
     "selections": [
       {
@@ -155,41 +128,13 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "Variable",
             "name": "input",
             "variableName": "input",
-            "type": "CreateCampaignInput!"
+            "type": "CreateCharacterInput!"
           }
         ],
-        "concreteType": "CreateCampaignPayload",
-        "name": "createCampaign",
+        "concreteType": "CreateCharacterPayload",
+        "name": "createCharacter",
         "plural": false,
         "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "title",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "desc",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "setting",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "url_slug",
-            "storageKey": null
-          },
           {
             "kind": "ScalarField",
             "alias": null,
@@ -201,14 +146,21 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "name": "created_at",
+            "name": "race_id",
             "storageKey": null
           },
           {
             "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "name": "updated_at",
+            "name": "character_class_id",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "name",
             "storageKey": null
           }
         ],
@@ -216,7 +168,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "mutation NewCampaignMutation(\n  $input: CreateCampaignInput!\n) {\n  createCampaign(input: $input) {\n    title\n    desc\n    setting\n    url_slug\n    id\n    created_at\n    updated_at\n  }\n}\n"
+  "text": "mutation CharacterCreateMutation(\n  $input: CreateCharacterInput!\n) {\n  createCharacter(input: $input) {\n    id\n    race_id\n    character_class_id\n    name\n  }\n}\n"
 };
 
 module.exports = batch;

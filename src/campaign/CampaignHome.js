@@ -10,6 +10,7 @@ const GRAPHQL_QUERY_ROOT = graphql`
       title,
       id,
       created_at,
+      url_slug,
       updated_at,
       scenes {
         id,
@@ -28,7 +29,7 @@ class CampaignHome extends React.Component {
     return (
       <div>
         <h1>{this.props.campaign.title}</h1>
-        
+
         <Link to={sceneLink}>
           Add a Scenario
         </Link>
@@ -37,8 +38,13 @@ class CampaignHome extends React.Component {
   }
 }
 
-
 const CampaignHomeContainer = (containerProps) => {
+  let campaignId = containerProps.location.state;
+
+  if (!campaignId) {
+    campaignId = containerProps.match.params.url_slug;
+  }
+
   return (
     <QueryRenderer
       environment={environment}
@@ -50,7 +56,7 @@ const CampaignHomeContainer = (containerProps) => {
         }
 
       }}
-      variables={{ campaignId: containerProps.match.params.id }}
+      variables={{ campaignId: campaignId }}
       query={GRAPHQL_QUERY_ROOT}
     />
   );

@@ -5,7 +5,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import App from './App';
-import CampaignList from './CampaignList';
+import CampaignList from './campaign/CampaignList';
 import NewCampaign from './campaign/NewCampaign';
 import CampaignHome from './campaign/CampaignHome';
 import CharacterCreate from './characters/CharacterCreate';
@@ -45,7 +45,7 @@ const AppContainer = (props) => {
           <Switch>
             <CampaignRoute exact path='/campaigns' component={CampaignList} />
             <Route path='/campaigns/new' component={NewCampaign} />
-            <Route path='/campaign/:id' component={CampaignHome} />
+            <Route path='/campaign/:url_slug' component={CampaignHome} />
           </Switch>
 
           <Switch>

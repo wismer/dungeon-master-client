@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { graphql, commitMutation } from 'react-relay';
 import environment from '../graphql-env';
 import { withRouter } from 'react-router';
@@ -7,38 +7,45 @@ import { withRouter } from 'react-router';
 const mutation = graphql`
   mutation NewCampaignMutation($input: CreateCampaignInput!) {
     createCampaign(input: $input) {
-      campaign {
-        title,
-        id,
-        created_at,
-        updated_at
-      }
+      title,
+      desc,
+      setting,
+      url_slug,
+      id,
+      created_at,
+      updated_at
     }
   }
 `;
+
 
 class NewCampaign extends React.Component {
   handleSubmit() {
     const history = this.props.history;
     let form = document.querySelector('form');
-    let [titleInput] = form.elements;
+    let [titleInput, settingInput, descInput] = form.elements;
 
     commitMutation(environment, {
       mutation: mutation,
       variables: {
         input: {
-          title: titleInput.value
+          title: titleInput.value,
+          setting: settingInput.value,
+          desc: descInput.value
         }
       },
+
       onCompleted: (r) => {
         titleInput.value = '';
-        history.push(`/campaigns/${r.createCampaign.campaign.id}`);
+        descInput.value = '';
+        settingInput.value = '';
+        history.push(`/campaign/${r.createCampaign.url_slug}`);
       },
+
       onError: (error) => {
         console.log(error);
       }
     });
-
   }
 
   render() {
@@ -47,8 +54,20 @@ class NewCampaign extends React.Component {
         <Form onSubmit={(e) => this.handleSubmit(e)}>
           <Form.Field>
             <label>Campaign Title</label>
-            <input type='text' placeholder='Title' />
+            <input name='title' type='text' placeholder='Title' />
           </Form.Field>
+
+          <Form.Field>
+            <label>Setting</label>
+            <input type='text' name='setting' placeholder='Description' />
+          </Form.Field>
+
+          <Form.Field>
+            <label>Campaign Description</label>
+            <textarea type='text' name='desc' placeholder='Description' />
+          </Form.Field>
+
+          <Button type='submit' positive>Add Campaign</Button>
         </Form>
       </div>
     );
